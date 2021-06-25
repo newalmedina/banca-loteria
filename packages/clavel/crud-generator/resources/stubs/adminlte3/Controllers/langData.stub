@@ -1,0 +1,3 @@
+        // Idioma
+        $serviceTranslation = new LanguageService(app()->getLocale());
+        $a_trans = $serviceTranslation->getTranslations(${{modelNameSingularLowerCase}});

@@ -1,0 +1,14 @@
+{{-- Radio yes/no - {{fieldName}} --}}
+<div class="form-group row">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-md-10">
+        <div class="form-check form-check-inline">
+                {!! Form::radio('{{fieldName}}', 0, true, array('id'=>'{{fieldName}}_0', 'class' => 'form-check-input')) !!}
+                {!! Form::label('{{fieldName}}_0', trans('general/admin_lang.no'), array('class' => 'form-check-label')) !!}
+        </div>
+        <div class="form-check form-check-inline">
+                {!! Form::radio('{{fieldName}}', 1, false, array('id'=>'{{fieldName}}_1', 'class' => 'form-check-input')) !!}
+                {!! Form::label('{{fieldName}}_1', trans('general/admin_lang.yes'), array('class' => 'form-check-label')) !!}
+        </div>
+    </div>
+</div>

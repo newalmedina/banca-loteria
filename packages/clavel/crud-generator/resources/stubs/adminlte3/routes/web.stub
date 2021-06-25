@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+// Modulo {{modelName}}
+Route::group(
+    [
+        'namespace' => 'App\Modules\{{modelNamePluralUpperCase}}\Controllers',
+        'middleware' => ['web']
+    ],
+    function () {
+        Route::group(array('prefix' => 'admin', 'middleware' => ['web']), function () {
+            Route::get("{{modelNamePluralLowerCase}}/export", 'Admin{{modelNamePluralUpperCase}}Controller@generateExcel');
+            Route::get('{{modelNamePluralLowerCase}}/state/{id}', 'Admin{{modelNamePluralUpperCase}}Controller@setChangeState')->where('id', '[0-9]+');
+            Route::post("{{modelNamePluralLowerCase}}/list", 'Admin{{modelNamePluralUpperCase}}Controller@getData');
+            Route::post("{{modelNamePluralLowerCase}}/delete-selected", 'Admin{{modelNamePluralUpperCase}}Controller@destroySelected');
+            Route::resource('{{modelNamePluralLowerCase}}', 'Admin{{modelNamePluralUpperCase}}Controller');
+
+        });
+    }
+);
+

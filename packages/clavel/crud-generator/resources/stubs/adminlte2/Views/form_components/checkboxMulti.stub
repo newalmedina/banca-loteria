@@ -1,0 +1,15 @@
+{{-- CheckboxMulti - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-md-10">
+        @foreach(App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}::{{__constFieldName__}}_CHECKBOXMULTI as $key => $value)
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('{{fieldName}}[]', '{{fieldName}}_'.$value, (in_array('{{fieldName}}_'.$value, explode('|', ${{modelNameSingularLowerCase}}->{{fieldName}}))) ? true : false, array('id'=>'{{fieldName}}_'.$value)) !!}
+                    {{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_'.$value) }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>

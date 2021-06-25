@@ -1,0 +1,15 @@
+function changeStatus(url) {
+    $.ajax({
+        url     : url,
+        type    : 'GET',
+        success : function(data) {
+            if (data) {
+                oTable.ajax.reload(null, false);
+            } else {
+                $("#modal_alert").addClass('modal-danger');
+                $("#alertModalBody").html("<i class='fa fa-bug' style='font-size: 64px; float: left; margin-right:15px;'></i> {{ trans('general/admin_lang.errorajax') }}");
+                $("#modal_alert").modal('toggle');
+            }
+        }
+    });
+}

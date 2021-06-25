@@ -1,0 +1,22 @@
+{{-- Select - {{fieldName}} --}}
+<div class="form-group row">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-sm-10">
+        @php
+            $items = [];
+        @endphp
+        @foreach(App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}::{{__constFieldName__}}_SELECT as $value)
+            @php
+            $items+= [ '{{fieldName}}_'.$value => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_'.$value)]
+            @endphp
+        @endforeach
+        {!! Form::select('{{fieldName}}',
+        ['' => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_helper')] +
+        $items
+        ,
+        null ,
+        ['id'=>'{{fieldName}}', 'class' => 'form-control select2']) !!}
+
+    </div>
+</div>

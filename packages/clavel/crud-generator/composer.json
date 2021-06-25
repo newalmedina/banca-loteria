@@ -1,0 +1,37 @@
+{
+    "name": "clavel/crud-generator",
+    "description": "Paquete para la creación de Cruds",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Juan Calvo",
+            "email": "jjcalvo@aduxia.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^5.6|^6.0|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7|^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clavel\\CrudGenerator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Clavel\\CrudGenerator\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Clavel\\CrudGenerator\\CrudGeneratorServiceProvider"
+            ]
+        }
+    }
+}

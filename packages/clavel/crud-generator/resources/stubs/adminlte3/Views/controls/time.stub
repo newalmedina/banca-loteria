@@ -1,0 +1,5 @@
+
+    $('#{{__columnName__}}').datetimepicker({
+        locale: 'es',
+        format: 'HH:mm'
+    });

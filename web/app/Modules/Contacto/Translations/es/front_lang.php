@@ -1,0 +1,33 @@
+<?php
+
+return [
+
+    "Contacto" => 'Formulario de contacto',
+    'all_fields_obligatory' => 'Todos los campos de este formulario son de obligado cumplimiento.',
+    'fullname' => 'Tu nombre',
+    '_INSERTAR_fullname' => 'Insertar nombre completo',
+    'email' => 'Tu email',
+    '_INSERTAR_email' => 'Insertar email',
+    'message' => 'Mensaje',
+    'submit' => 'Enviar',
+    'email_account_confirmation' => 'Nuevo correo recibido por ',
+    'contato_mail_001' => 'Hola',
+    'contato_mail_002' => 'le ha enviado la siguiente consulta.',
+    'send_ok' => 'Mensaje enviado con éxito',
+    'error_captcha_001' => 'Por favor, especifique que no es un robot',
+    'enviando_mensaje' => 'Enviando mensaje',
+    'respuestaServidor' => 'Respuesta del servidor',
+    'contacto_info_01' => 'Estamos en contacto',
+    'contacto_info_02' => 'En esta sección se presentan los diferentes canales que se tienen a disposición de los usuarios para contactar con nosotros, en caso de duda o error en el formulario de la izquierda:',
+    'signup_02' => 'Teléfono',
+    'signup_03' => 'Email',
+    'errorform'=>'No se ha podido enviar el mensaje',
+    'okform'=>"Se ha enviado el mensaje exitosamente. En breve nos pondremos en contacto con usted.",
+    'okform_bots'=>"Se ha enviado el mensaje exitosamente. En breve nos pondremos en contacto con usted, o no.",
+    'fullname_required' => 'El nombre completo es obligatorio',
+    'email_required' => 'El email es obligatorio',
+    'message_required' => 'El mensaje es obligatorio',
+    'email_formato_incorrecto' => 'El formato del e-mail no es correcto.',
+    "message_min_required" => "El mensaje debe tener un mínimo de :min carácteres.",
+    "message_max_required" => "El mensaje debe tener un máximo de :max carácteres.",
+];

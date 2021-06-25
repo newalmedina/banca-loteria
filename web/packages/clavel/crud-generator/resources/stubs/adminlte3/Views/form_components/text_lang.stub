@@ -1,0 +1,7 @@
+{{-- Text Lang - {{fieldName}} --}}
+<div class="form-group row">
+    {!! Form::label('lang['.$key.'][{{fieldName}}]', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-sm-10">
+        {!! Form::text('lang['.$key.'][{{fieldName}}]', ${{modelNameSingularLowerCase}}->{'{{fieldName}}:'.$key} , array('placeholder' => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_helper'), 'class' => 'form-control', 'id' => '{{fieldName}}_'.$key)) !!}
+    </div>
+</div>

@@ -1,0 +1,106 @@
+DIV.buttonsOfBlcok2 {
+     padding							: 0px;
+     line-height						: normal;
+     height							: 794px;
+     width							: 1123px;
+     position						: relative;
+     border                          : 1px solid #c9c9c9;
+     background-color                : #f0f0f0;
+     margin                          : auto;
+ }
+
+.colorSelector div {
+    background-image				: none !important;
+    border-radius					: 3px !important;
+    height							: 15px !important;
+    left							: 2px !important;
+    position						: absolute !important;
+    top								: 2px !important;
+    width							: 15px !important;
+    cursor							: pointer;
+}
+
+.colorSelector {
+    background						: #f0f0f0;
+    border							: 1px solid #BEBDBD !important;
+    border-radius					: 4px !important;
+    height							: 21px !important;
+    position						: relative !important;
+    width							: 21px !important;
+    cursor							: pointer;
+}
+
+.colorpicker {
+    z-index:99999999 !important;
+}
+
+@font-face {
+    font-family		: 'Open Sans';
+    font-style		: normal;
+    font-weight		: 300;
+    src				: local('Open Sans Light'), local('OpenSans-Light'), url(../../fonts/opensans/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+
+@font-face {
+    font-family		: 'Open Sans';
+    font-style		: normal;
+    font-weight		: 400;
+    src				: local('Open Sans'), local('OpenSans'), url(../../fonts/opensans/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Julius Sans One';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Julius Sans One'), local('JuliusSansOne-Regular'), url(../../fonts/julius/iU65JP9acQHPDLkdalCF7q3fkYX5z1QtDUdIWoaaD_k.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(../../fonts/roboto/Zd2E9abXLFGSr9G3YK2MsFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Lobster';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Lobster'), local('Lobster-Regular'), url(../../fonts/lobster/MWVf-Rwh4GLQVBEwbyI61Q.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Londrina Solid';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Londrina Solid'), local('LondrinaSolid-Regular'), url(../../fonts/londrina/yysorIEiYSBb0ylZjg791Or7NmWjaFpdDH7zur_b4wE.woff) format('woff');
+}
+
+
+DIV.elementInfo {
+    position						: absolute;
+    cursor							: move;
+    text-align: center;
+
+}
+
+DIV.elementInfo:hover {
+    background-color							: #f9f9f9;
+    opacity:0.8;
+}
+
+DIV.functionsScript {
+    position						: absolute;
+    top							    : 0;
+    right					        : 0;
+    font-size:16px;
+}
+
+.ui-resizable-helper {
+    background-color							: #f0f0f0;
+    opacity:0.8;
+}
+
+.formElement + .ui-draggable-dragging {
+    width:auto !important;
+}

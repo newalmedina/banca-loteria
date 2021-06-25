@@ -1,0 +1,11 @@
+# Define pipline stages
+stages:
+  - init
+
+hello:
+  stage: init
+  script:
+    - echo "Inicialización"
+
+  only:
+    - master

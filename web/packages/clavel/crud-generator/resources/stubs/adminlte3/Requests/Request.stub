@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class Admin{{modelNamePluralUpperCase}}Request extends FormRequest
+{
+    protected $validationRules = array();
+    protected $locale;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        {{__langData__}}
+        {{__fieldRules__}}
+
+    }
+
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        // Si no tiene permisos para ver el listado lo echa.
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-create') || !auth()->user()->can('admin-{{modelNamePluralLowerCase}}-update')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return array(
+            {{__fieldMessages__}}
+        );
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return $this->validationRules;
+    }
+}

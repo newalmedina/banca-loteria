@@ -1,0 +1,10 @@
+$("#file_{{__columnName__}}").change(function(){
+    $('#{{__columnName__}}').val($('#file_{{__columnName__}}')[0].files[0].name);
+    $("#delete_{{__columnName__}}").val('1');
+});
+
+$("#remove_{{__columnName__}}").click(function() {
+    $('#file_{{__columnName__}}').val('');
+    $('#{{__columnName__}}').val("");
+    $("#delete_{{__columnName__}}").val('1');
+});

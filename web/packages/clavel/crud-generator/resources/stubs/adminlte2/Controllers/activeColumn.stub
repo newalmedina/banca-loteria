@@ -1,0 +1,11 @@
+            $table->editColumn('active', function ($data) {
+                return '<button class="btn '.($data->active?"btn-success":"btn-danger").' btn-sm" '.
+                    (auth()->user()->can("admin-{{modelNamePluralLowerCase}}-update")?"onclick=\"javascript:changeStatus('".
+                        url('admin/{{modelNamePluralLowerCase}}/state/'.$data->id)."');\"":"").'
+                        data-content="'.($data->active?
+                        trans('general/admin_lang.descativa'):
+                        trans('general/admin_lang.activa')).'"
+                        data-placement="right" data-toggle="popover">
+                        <i class="fa '.($data->active?"fa-eye":"fa-eye-slash").'" aria-hidden="true"></i>
+                        </button>';
+            });

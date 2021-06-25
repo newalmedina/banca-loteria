@@ -1,0 +1,345 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Controllers;
+
+use App\Http\Controllers\AdminController;
+use App\Models\Permission;
+use App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}};
+{{__includes__}}
+{{__includeLang__}}
+use App\Modules\{{modelNamePluralUpperCase}}\Requests\Admin{{modelNamePluralUpperCase}}Request;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Response;
+use Yajra\DataTables\Facades\DataTables;
+
+class Admin{{modelNamePluralUpperCase}}Controller extends AdminController
+{
+    protected $page_title_icon = '{{modelIcon}}';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->access_permission = 'admin-{{modelNamePluralLowerCase}}';
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        // Si no tiene permisos para ver el listado lo echa.
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-list')) {
+            app()->abort(403);
+        }
+
+        $page_title = trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.{{modelNamePluralLowerCase}}");
+
+        return view("{{modelNamePluralUpperCase}}::admin_index", compact('page_title'))
+            ->with('page_title_icon', $this->page_title_icon);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // Si no tiene permisos para ver el listado lo echa.
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-create')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = new {{modelName}}();
+        $form_data = array(
+            'route' => array('{{modelNamePluralLowerCase}}.store'),
+            'method' => 'POST',
+            'id' => 'formData',
+            'class' => 'form-horizontal'
+            {{__uploadFiles__}}
+        );
+        $page_title = trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.nueva_{{modelNameSingularLowerCase}}");
+
+        {{__langData__}}
+
+        {{__additionalLists__}}
+
+        return view(
+            '{{modelNamePluralUpperCase}}::admin_edit',
+            compact(
+                'page_title',
+                '{{modelNameSingularLowerCase}}',
+                'form_data'
+                {{__langDataVar__}}
+                {{__additionalListsVars__}}
+            )
+        )
+            ->with('page_title_icon', $this->page_title_icon);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Admin{{modelNamePluralUpperCase}}Request $request)
+    {
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-create')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = new {{modelName}}();
+        if(!$this->save{{modelName}}($request, ${{modelNameSingularLowerCase}})) {
+
+            return redirect()->route('{{modelNamePluralLowerCase}}.create')
+                ->with('error', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ko'));
+        }
+
+        $saveReturn = $request->get('form_return', 0);
+        if($saveReturn == 1){
+            return redirect()->to('admin/{{modelNamePluralLowerCase}}/')
+                ->with('success', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ok'));
+        }
+        return redirect()->to('admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id."/edit")
+            ->with('success', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ok'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        // Si no tiene permisos para ver el listado lo echa.
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-update')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = {{modelName}}::find($id);
+        if(empty(${{modelNameSingularLowerCase}})) {
+            app()->abort(404);
+        }
+
+        $form_data = array(
+            'route' => array('{{modelNamePluralLowerCase}}.update', ${{modelNameSingularLowerCase}}->id),
+            'method' => 'PATCH',
+            'id' => 'formData',
+            'class' => 'form-horizontal'
+            {{__uploadFiles__}}
+        );
+        $page_title = trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.editar_{{modelNameSingularLowerCase}}");
+
+        {{__langData__}}
+
+        {{__additionalLists__}}
+
+        return view(
+            '{{modelNamePluralUpperCase}}::admin_edit',
+            compact(
+                'page_title',
+                '{{modelNameSingularLowerCase}}',
+                'form_data'
+                {{__langDataVar__}}
+                {{__additionalListsVars__}}
+            )
+        )
+            ->with('page_title_icon', $this->page_title_icon);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Admin{{modelNamePluralUpperCase}}Request $request, $id)
+    {
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-update')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = {{modelName}}::find($id);
+        if (empty(${{modelNameSingularLowerCase}})) {
+            app()->abort(404);
+        }
+
+        if(!$this->save{{modelName}}($request, ${{modelNameSingularLowerCase}})) {
+            return redirect()->to('admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id."/edit")
+                ->with('error', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ko'));
+        }
+
+        $saveReturn = $request->get('form_return', 0);
+
+        if($saveReturn == 1){
+            return redirect()->to('admin/{{modelNamePluralLowerCase}}/')
+                ->with('success', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ok'));
+        }
+
+        return redirect()->to('admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id."/edit")
+            ->with('success', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.save_ok'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // Si no tiene permisos para modificar lo echamos
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-delete')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = {{modelName}}::find($id);
+        if (empty(${{modelNameSingularLowerCase}})) {
+            app()->abort(404);
+        }
+
+        ${{modelNameSingularLowerCase}}->delete();
+
+        return response()->json(array(
+            'success' => true,
+            'msg' => trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.deleted"),
+            'id' => ${{modelNameSingularLowerCase}}->id
+        ));
+    }
+
+    /**
+     * Remove the specified resources from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroySelected(Request $request)
+    {
+        // Si no tiene permisos para modificar lo echamos
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-delete')) {
+            app()->abort(403);
+        }
+
+        $ids = explode(",", $request->get("ids", ""));
+
+        foreach ($ids as $key => $value) {
+            ${{modelNameSingularLowerCase}} = {{modelName}}::find($value);
+            if (!empty(${{modelNameSingularLowerCase}})) {
+                ${{modelNameSingularLowerCase}}->delete();
+            }
+        }
+
+        return response()->json(array(
+            'success' => true,
+            'msg' => trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.deleted_records")
+        ));
+    }
+
+    public function getData()
+    {
+        {{__langTable__}}
+            ->select(
+                array(
+                    {{__tableFields__}}
+                )
+            )
+            {{__softDeletes__}}
+            ;
+
+       $table = Datatables::of($query);
+            {{__activeColumnData__}}
+
+        $table->editColumn('check', function($row) {
+            return '<input type="checkbox" name="selected_id[]" value="' . $row->id . '">';
+        });
+
+       $table->editColumn('actions', function ($data) {
+                $actions = '';
+                if (auth()->user()->can("admin-{{modelNamePluralLowerCase}}-update")) {
+                    $actions .= '<button class="btn btn-primary btn-sm" onclick="javascript:window.location=\'' .
+                        url('admin/{{modelNamePluralLowerCase}}/' . $data->id . '/edit') . '\';" data-content="' .
+                        trans('general/admin_lang.modificar') . '" data-placement="right" data-toggle="popover">
+                        <i class="fa fa-pencil" aria-hidden="true"></i></button> ';
+                }
+                if (auth()->user()->can("admin-{{modelNamePluralLowerCase}}-delete")) {
+                    $actions .= '<button class="btn btn-danger btn-sm" onclick="javascript:deleteElement(\''.
+                        url('admin/{{modelNamePluralLowerCase}}/'.$data->id).'\');" data-content="'.
+                        trans('general/admin_lang.borrar').'" data-placement="left" data-toggle="popover">
+                        <i class="fa fa-trash" aria-hidden="true"></i></button>';
+                }
+
+                return $actions;
+            });
+
+            {{__editColumnData__}}
+            $table->removeColumn('id');
+            $table->rawColumns(['check',{{__rawColumns__}}'actions']);
+            return $table->make();
+    }
+
+    public function setChangeState($id)
+    {
+        // Si no tiene permisos para modificar lo echamos
+        if (!auth()->user()->can('admin-{{modelNamePluralLowerCase}}-update')) {
+            app()->abort(403);
+        }
+
+        ${{modelNameSingularLowerCase}} = {{modelName}}::find($id);
+
+        if (!empty(${{modelNameSingularLowerCase}})) {
+            ${{modelNameSingularLowerCase}} -> active = !${{modelNameSingularLowerCase}} -> active;
+            return ${{modelNameSingularLowerCase}} -> save() ? 1 : 0 ;
+        }
+
+        return 0;
+    }
+
+    private function save{{modelName}}(Request $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    {
+        try {
+            DB::beginTransaction();
+
+            {{__saveData__}}
+            ${{modelNameSingularLowerCase}}->save();
+
+            {{__saveDataSync__}}
+
+            {{__saveDataLangStub__}}
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+        return true;
+    }
+
+    public function viewImage($image)
+    {
+        $myServiceSPW = new StoragePathWork("{{modelNamePluralLowerCase}}");
+        return $myServiceSPW->showFile($image, '/{{modelNamePluralLowerCase}}');
+    }
+
+    {{__excelExport__}}
+
+}

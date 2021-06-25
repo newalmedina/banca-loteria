@@ -1,0 +1,1 @@
+        $query = DB::table('{{modelTableName}} as c')

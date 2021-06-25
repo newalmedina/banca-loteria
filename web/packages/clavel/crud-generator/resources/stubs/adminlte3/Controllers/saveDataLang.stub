@@ -1,0 +1,8 @@
+foreach ($request->input('lang') as $key => $value) {
+    $itemTrans = {{modelName}}Translation::findOrNew(empty($value["id"])?0:$value["id"]);
+
+    $itemTrans->{{modelNameSingularLowerCase}}_id = ${{modelNameSingularLowerCase}}->id;
+    $itemTrans->locale = $key;
+    {{__saveDataLang__}}
+    $itemTrans->save();
+}

@@ -1,0 +1,15 @@
+$locale = app()->getLocale();
+$data = DB::table('{{modelNamePluralLowerCase}}')
+    ->join('{{modelNameSingularLowerCase}}_translations', function ($join) use ($locale) {
+        $join->on('{{modelNameSingularLowerCase}}_translations.{{modelNameSingularLowerCase}}_id', '=', '{{modelNamePluralLowerCase}}.id');
+        $join->on('{{modelNameSingularLowerCase}}_translations.locale', '=', DB::raw("'".$locale."'"));
+    })
+    ->select(
+        array(
+            {{__tableFieldsSelect__}}
+        )
+    )
+    ->whereNull('{{modelNamePluralLowerCase}}.deleted_at')
+    ->orderBy('{{modelNamePluralLowerCase}}.created_at', 'DESC')
+    ->get();
+

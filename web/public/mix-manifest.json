@@ -1,0 +1,19 @@
+{
+    "/assets/admin/js/app.js": "/assets/admin/js/app.js",
+    "/assets/admin/css/app.css": "/assets/admin/css/app.css",
+    "/assets/admin/vendor/adminlte/css/adminlte.min.css": "/assets/admin/vendor/adminlte/css/adminlte.min.css",
+    "/assets/admin/vendor/adminlte/js/adminlte.min.js": "/assets/admin/vendor/adminlte/js/adminlte.min.js",
+    "/assets/admin/vendor/jquery/js/jquery.min.js": "/assets/admin/vendor/jquery/js/jquery.min.js",
+    "/assets/admin/vendor/jquery/js/jquery-ui.min.js": "/assets/admin/vendor/jquery/js/jquery-ui.min.js",
+    "/assets/admin/vendor/iCheck/js/icheck.min.js": "/assets/admin/vendor/iCheck/js/icheck.min.js",
+    "/assets/admin/vendor/datatables/css/dataTables.bootstrap.min.css": "/assets/admin/vendor/datatables/css/dataTables.bootstrap.min.css",
+    "/assets/admin/vendor/datatables/js/jquery.dataTables.min.js": "/assets/admin/vendor/datatables/js/jquery.dataTables.min.js",
+    "/assets/admin/vendor/datatables/js/dataTables.bootstrap.min.js": "/assets/admin/vendor/datatables/js/dataTables.bootstrap.min.js",
+    "/assets/admin/vendor/jquery-bonsai/js/jquery.bonsai.js": "/assets/admin/vendor/jquery-bonsai/js/jquery.bonsai.js",
+    "/assets/admin/vendor/jquery-bonsai/css/jquery.bonsai.css": "/assets/admin/vendor/jquery-bonsai/css/jquery.bonsai.css",
+    "/assets/admin/vendor/jquery-bonsai/css/assets/svg-icons.css": "/assets/admin/vendor/jquery-bonsai/css/assets/svg-icons.css",
+    "/assets/admin/vendor/jquery-qubit/js/jquery.qubit.js": "/assets/admin/vendor/jquery-qubit/js/jquery.qubit.js",
+    "/assets/admin/vendor/tinymce/tinymce.min.js": "/assets/admin/vendor/tinymce/tinymce.min.js",
+    "/assets/admin/vendor/tinymce/jquery.tinymce.min.js": "/assets/admin/vendor/tinymce/jquery.tinymce.min.js",
+    "/assets/admin/vendor/jquery-sortable/js/jquery-sortable-min.js": "/assets/admin/vendor/jquery-sortable/js/jquery-sortable-min.js"
+}

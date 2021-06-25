@@ -1,0 +1,36 @@
+<?php
+return [
+    'foro' => 'Foro',
+    'tema' => 'Tema',
+    'crear_tema' => 'Crear un nuevo tema',
+    'info_foro' => 'Este es el lugar adecuado para aclarar dudas. Para evitar duplicados, por favor, compruebe las preguntas antes de publicar. También le solicitamos que sea cortés y amable con el resto de usuarios del foro. Si desea contactar directamente con los tutores del curso, puede hacerlo a través del mail xxxx@xxxxx.com',
+    'no_tiene_permisos' => 'No tienes permisos para ver los mensajes del foro',
+    '_FICVIS_SAVE' => 'Guardar',
+    '_FICVIS_CLOSE' => 'Cerrar',
+    '_FICVIS_HILO' => 'Información del mensaje',
+    'titulo' => 'Título del mensaje',
+    'contenido' => 'Escriba su mensaje aquí',
+    'mensaje_correcto' => 'Su mensaje se ha enviado al foro de forma correcta. Gracias por participar.',
+    'cargando' => 'Cargando listado',
+    'tema_iniciado_por' => 'Iniciado por',
+    'respuestas' => 'Respuestas',
+    'ultimo_mensaje' => 'Último mensaje',
+    'last_por' => 'por',
+    'historico_mensajes' => 'Hilo de conversación',
+    'foro_actual' => 'Foro',
+    'volver' => 'Volver',
+    'reponder_en_el_hilo' => 'Responder en el hilo',
+    'close' => 'Cancelar',
+    'confirmar' => 'Confirmar',
+    'modificar_tema' => 'Modificar tema',
+    'atencion' => '¡¡Atención!!',
+    'atencion_msg' => '¿Está seguro que desea borrar este mensaje del foro?',
+    'no_messajes' => 'No hay mensajes',
+    'delete_message' => 'Entrada eliminada',
+
+    //Email
+    'edit_foro' => 'Se ha editado un hilo del foro del usuario ',
+    'nuevo_foro' => 'Se ha craeado un nuevo foro del usuario ',
+    'email_confirmation' => 'Email de confirmación de foro en ',
+
+];

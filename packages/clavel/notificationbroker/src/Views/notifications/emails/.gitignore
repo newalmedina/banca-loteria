@@ -1,0 +1,4 @@
+*.php
+!email-full.blade.php
+!sms-full.blade.php
+!.gitignore

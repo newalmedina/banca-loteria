@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="51px" height="51px" viewBox="0 0 51 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0 51 0 51 51 0 51"></polygon>
+    </defs>
+    <g id="Elearning-diabetes---Sanofi" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Curso-ok-registro" transform="translate(-695.000000, -410.000000)">
+            <g id="Login-Copy" transform="translate(435.000000, 365.000000)">
+                <g id="Group-3" transform="translate(260.000000, 45.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M20.8222568,38.5988525 L9.59407124,27.3711451 L13.336481,23.6287354 L20.8222568,31.114033 L37.663519,14.2722926 L41.4059288,18.0147024 L20.8222568,38.5988525 Z M25.5,0 C11.4174038,0 0,11.4169257 0,25.5 C0,39.5829548 11.4174038,51 25.5,51 C39.5841501,51 51,39.5829548 51,25.5 C51,11.4169257 39.583672,0 25.5,0 L25.5,0 Z" id="Fill-1" fill="#6AC259" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

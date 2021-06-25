@@ -1,0 +1,15 @@
+{{-- Radio - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-md-10">
+        @foreach(App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}::{{__constFieldName__}}_RADIO as $key => $value)
+            <div class="radio">
+                <label>
+                    {!! Form::radio('{{fieldName}}', '{{fieldName}}_'.$value, false, array('id'=>'{{fieldName}}_'.$value)) !!}
+                    {{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_'.$value) }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>

@@ -1,0 +1,127 @@
+<?php
+
+return [
+
+    /* Listado de Usuarios */
+    'usuarios' => 'Usuarios',
+    'listado_usuarios' => 'Listado de usuarios',
+    'nueva_usuario' => 'Nuevo usuario',
+    'nombre_usuario' => 'Nombre usuario',
+    'email_usuario' => 'E-mail',
+    'username' => 'Login',
+    'acciones' => 'Acciones',
+    'export' => 'Exportaciones',
+    "exportar_curso"=> "Exportar Curso",
+    'suplantar' => 'Suplantar este usuario',
+
+    /* Formulario de usuarios */
+    'crear_usuarios' => 'Crear usuario',
+    'datos_personales' => 'Datos personales',
+    'roles' => 'Roles',
+    'modificar_usuarios' => 'Modificar usuario',
+    '_NOMBRE_USUARIO' => 'Nombre',
+    '_INSERTAR_NOMBRE_USUARIO' => 'Insertar nombre del usuario',
+    '_APELLIDOS_USUARIO' => 'Apellidos',
+    '_INSERTAR_APELLIDOS_USUARIO' => 'Insertar apellidos del usuario',
+    '_EMAIL_USUARIO' => 'Dirección de E-mail',
+    '_INSERTAR_EMAIL_USUARIO' => 'Insertar e-mail del usuario',
+    'hombre' => 'Hombre',
+    'mujer' => 'Mujer',
+    '_genero_sexusal' => 'Sexo',
+    'usuario' => 'Usuario',
+    'edad' => 'Edad',
+    '_INSERTAR_USUSARIO_USUARIO' => 'Inserta usuario',
+    '_NOTCORRECTUSERLOGIN' => 'El login es incorrecto.',
+    '_CONTASENYA_USUARIO' => 'Contraseña',
+    '_FICPAC_GENERATE_PASS_AUTO' => 'Generar una contraseña',
+    '_REPETIR_CONTASENYA_USUARIO' => 'Repetir Contraseña',
+    '_ACTIVAR_USUARIO_USUARIO' => '¿Activar usuario?',
+    '_KEY_POSIBILITIES_INFO' => 'Las claves deberían cumplir los siguientes requerimientos:',
+    '_KEY_POSIBILITIES_001' => 'Por lo menos',
+    '_KEY_POSIBILITIES_002' => 'Debe tener',
+    '_KEY_POSIBILITIES_003' => 'una letra',
+    '_KEY_POSIBILITIES_004' => 'una letra mayúscula',
+    '_KEY_POSIBILITIES_005' => 'un número',
+    '_KEY_POSIBILITIES_006' => 'más de 7 caracteres',
+    '_CONFIRMAR_USUARIO_USUARIO' => '¿Confirmar usuario?',
+    'errorediciion' => 'Error en la acción',
+    'cancelar' => 'Cancelar',
+    'guardar' => 'Guardar',
+    'okGuardado' => 'El usuario se ha guardado correctamente.',
+    'deleteimpossible' => 'No puedes eliminarte a ti mismo.',
+    'user_warning_title' => 'Aviso',
+    'user_delete_question' => '¿Está seguro que desea borrar este usuario?',
+    'user_suplantar_question' => '¿Estas seguro que deseas suplantar la identidad de este usuario?',
+    'suplantar_item' => 'Suplantar',
+    'nombre_obligatorio' => 'El nombre es un campo obligatorio.',
+    'apellidos_obligatorio' => 'Los apellidos es un campo obligatorio.',
+    'email_obligatorio' => 'El e-mail es un campo obligatorio.',
+    'email_formato_incorrecto' => 'El formato del e-mail no es correcto.',
+    'email_ya_existe' => 'El E-mail ya existe en la base de datos.',
+    'required_username' => 'El campo login es obligatorio.',
+    'usuarios_ya_existe' => 'El campo login ya existe en la base de datos.',
+    'required_password' => 'El campo contraseña es obligatorio.',
+    'password_no_coincide' => 'Las contraseñas no coinciden.',
+    'online' => 'Online',
+
+    'country' => 'País',
+    'select_pais' => 'Seleccione un país',
+    'provincia' => 'Provincia',
+    'select_provincia' => 'Selecccione una provincia',
+    'ciudad' => 'Municipio',
+    'select_ciudad' => 'Selecccione un municipio',
+    '_centro_trabajo' => 'Centro de trabajo',
+    'registro' => 'Registro',
+
+    /* Formulario de roles */
+    'seleccione_un_rol' => 'Es necesario seleccionar al menos un rol.',
+    'okUpdate_roles' => 'Se han guardado correctamente los roles para el usuario.',
+
+    /* Perfil social */
+    'social_title' => 'Información social',
+    'facebook' => 'Facebook',
+    'twitter' => 'Twitter',
+    'linkedin' => 'Linkedin',
+    'youtube' => 'Youtube',
+    'bio' => 'Biografía',
+    'okUpdate_social' => 'Se han guardado correctamente el perfil social del usuario.',
+
+
+    /* Exportación a excel de usuarios */
+    'exportar_usuarios' =>'Exportar excel',
+    'listado_de_usuarios' => 'Listado de usuarios',
+    'usuarios_excel' => 'Usuarios',
+    'exportar_usuarios_preguntas' =>'Exportar excel de preguntas',
+    'identificador' => 'Identificador',
+    '_ACTIVAR_USUARIO_USUARIO_ESTA' => '¿Usuario activo?',
+    '_CONFIRMAR_USUARIO_USUARIO_ESTA' => '¿Usuario confirmado?',
+	"fecha_registro" => "Fecha registro",
+
+    // Front
+    'alta_correcta' => 'Se ha dado de alta correctamente en la web, ahora puede acceder a los contenidos privados mediante su usuario y contraseña.',
+    '_USER_LANG' => 'Idioma',
+
+    // E-mail de confirmación
+    'email_001' => 'Hola',
+    'email_002' => 'Por favor, clique sobre el link que se le muestra a continuación para confirmar el usuario:',
+
+    'alta_correcta_11' => 'Se ha enviado un correo a la cuenta',
+    'alta_correcta_12' => 'que ha suministrado en el formulario de registro, con el fin de validar que es correcto, por favor, vaya a su cuenta de correo y valide el registro para poder acceder.',
+    'alta_correcta_13' => 'Si no recibe el correo con el link de activación puede volver a enviarlo pulsando el botón:',
+    'send_mail' => 'Reenviar link confirmación',
+    'email_account_confirmation' => 'Email de confirmación de cuenta en ',
+    'lopd_1' => 'Ley Orgánica de Protección de Datos',
+    'lopd_2' => 'De acuerdo con lo establecido por la Ley Orgánica 15/1999, le informamos que los datos obtenicos de éste formulario serán incorporados a un fichero automatizado bajo la responsabilidad de MEDICAL GUARD SL con la finalidad de atender sus consultas y remitirle información relacionada que pueda ser de su interés. Puede ejercer sus derechos de acceso, rectificación, cancelación y oposición mediante un escrito a nuestra dirección RAMBLA DEL CELLER, 117-119 08172, SANT CUGAT DEL VALLES (BARCELONA).',
+    'lopd_3' => 'Mientras no nos comunique lo contrario, entenderemos que sus datos no han sido modificados, que usted se compromete a notificarnos cualquier variación y que tenemos su consentimiento para utilizarlos para las finalidades mencionadas.',
+    'lopd_4' => 'El envío de éstos datos implica la aceptación de ésta cláusula.',
+
+    'confirmacion_correcta' => 'Confirmación del usuario correcta.',
+    'confirmacion_correcta_01' => 'Se ha confirmado correctamente el usuario en la web, ahora puede hacer login y acceder a los contenidos de la misma.',
+    'no_exite_el_correo' => 'No existe el correo suministrado.',
+    'volver_a_la_home' => 'Volver a la Home',
+
+    'aceptar_terminos' => 'Debe aceptar las condiciones de uso',
+    'iniciar_sesion' => 'Iniciar sesión',
+    'password' => 'Contraseña',
+    'olvidaste_password' => '¿Olvidaste tu contraseña?'
+];

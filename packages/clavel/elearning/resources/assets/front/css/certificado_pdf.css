@@ -1,0 +1,14 @@
+DIV.buttonsOfBlcok2 {
+    padding							: 0px;
+     line-height						: normal;
+    height							: 97%;
+    width							: 100%;
+     position						: relative;
+     margin                          : auto;
+ }
+
+.elementInfo {
+    position:absolute;
+    text-align:center;
+
+}

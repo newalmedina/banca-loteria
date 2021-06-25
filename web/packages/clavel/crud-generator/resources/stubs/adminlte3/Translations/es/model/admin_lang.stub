@@ -1,0 +1,40 @@
+<?php
+
+return [
+    '{{modelNamePluralLowerCase}}' => '{{moduleNamePluralUpperCase}}',
+    '{{modelNameSingularLowerCase}}' => '{{moduleName}}',
+    'listado' => 'Listado de {{moduleNamePluralLowerCase}}',
+    'nueva' => 'Nueva {{moduleName}}',
+    'visible' => 'Visible',
+    'titulo' => 'Nombre {{moduleNameSingularLowerCase}}',
+    'acciones' => 'Acciones',
+    'nueva_{{modelNameSingularLowerCase}}' => 'Nueva {{moduleNameSingularLowerCase}}',
+    'editar_{{modelNameSingularLowerCase}}' => 'Editar {{moduleNameSingularLowerCase}}',
+    'defecto' => 'Por defecto',
+    'info_menu' => 'Información básica',
+    'descripcion' => 'Descripción',
+    'save_ok' => 'Registro guardado correctamente',
+    'save_ko' => 'Se ha producido un error al guardar el registro',
+    'deleted' => 'Registro eliminado',
+    'deleted_records' => 'Registros eliminados',
+    'export' => 'Exportar a excel',
+    'exportar_datos' => 'Exportar a excel {{moduleNamePluralLowerCase}}',
+    'listado_data' => 'Listado de {{moduleNamePluralLowerCase}}',
+
+    'titulo_required' => 'El título es obligatorio.',
+
+    'fields'         => [
+        'id'                => 'ID',
+        'id_helper'         => '',
+        {{__fields__}}
+        'created_at'        => 'Created at',
+        'created_at_helper' => '',
+        'updated_at'        => 'Updated At',
+        'updated_at_helper' => '',
+        'deleted_at'        => 'Deleted At',
+        'deleted_at_helper' => '',
+    ],
+
+
+
+];

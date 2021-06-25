@@ -1,0 +1,281 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Tests\Feature;
+
+use Tests\AdminTestCase;
+use Illuminate\Support\Facades\DB;
+use App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}};
+use Laravel\Passport\ClientRepository;
+
+
+// Para llamar directamente a esta prueba
+// ./vendor/bin/phpunit app/Modules/{{modelNamePluralUpperCase}}/Tests/Feature/{{modelNamePluralUpperCase}}ApiTest.php
+//  ./vendor/bin/phpunit --filter {{modelNamePluralUpperCase}}ApiTest
+
+class {{modelNamePluralUpperCase}}ApiTest extends AdminTestCase {
+
+    protected $client, $token, $headers;
+
+    protected function setUp(): void {
+
+        parent::setUp();
+
+        // Creamos el OAuth Client
+        $clientRepository = new ClientRepository();
+        $this->client = $clientRepository->createPersonalAccessClient(
+            null, 'Test Personal Access Client', '/'
+        );
+
+        // Creamos el Personal Access Token
+        DB::table('oauth_personal_access_clients')->insert([
+            'client_id' => $this->client->id,
+            'created_at' => date('Y-m-d'),
+            'updated_at' => date('Y-m-d'),
+        ]);
+
+        // El usuario ya esta creado en la base de AdminTestCase
+        // Creamos el token temporal para el usuario
+        $this->token = $this->user->createToken('TestToken', [])->accessToken;
+        $this->headers['Accept'] = 'application/json';
+        $this->headers['Authorization'] = 'Bearer '.$this->token;
+    }
+
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_acceder()
+    {
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Llamamos a la ruta de listado
+        $response = $this->get('/api/v1/{{modelNamePluralLowerCase}}');
+
+        // La respuesta debe ser 401. Unauthorized
+        $response->assertStatus(401);
+    }
+
+    /** @test */
+    public function usuario_puede_leer_{{modelNamePluralLowerCase}}()
+    {
+
+        // Tenemos al menos un objeto en la base de datos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // Se probaran 3 tipo de acceso que todos son compatibles
+
+        // 1.- Mediante el driver nativo de Laravel
+        // El usuario visita el listado de objetos
+        $response = $this->actingAs($this->user, 'api')->get('/api/v1/{{modelNamePluralLowerCase}}');
+
+        // Respuesta 200
+        $response->assertStatus(200);
+
+        // Veremos en el listado el objeto creado
+        $response->assertSee(${{modelNameSingularLowerCase}}->{{__key__}});
+
+        // 2.- Mediante el driver nativo y llamada a json
+        // El usuario visita el listado de objetos en modo json
+        $response = $this->actingAs($this->user, 'api')->json('get', '/api/v1/{{modelNamePluralLowerCase}}');
+
+        // Respuesta 200
+        $response->assertStatus(200);
+
+        // Veremos en el listado el objeto creado
+        $response->assertSee(${{modelNameSingularLowerCase}}->{{__key__}});
+
+        // 3.- Mediante una cabecera de Bearer
+        // El usuario visita el listado de objetos en modo json y ademas el usuario es enviado como token bearer
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '. $this->token,
+            ])->json('get', '/api/v1/{{modelNamePluralLowerCase}}');
+
+        // Respuesta 200
+        $response->assertStatus(200);
+
+        // Veremos en el listado el objeto creado
+        $response->assertSee(${{modelNameSingularLowerCase}}->{{__key__}});
+
+        $response->assertJsonStructure([
+            'data' => [
+                [
+                    {{__fieldRequired__}}
+                ]
+            ]
+        ]);
+
+        // Verificamos que el dato es el mismo que hemos grabado
+        $response->assertJsonFragment([
+            '{{__key__}}' => ${{modelNameSingularLowerCase}}->{{__key__}}
+        ]);
+
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_crear_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto pero no lo insertamos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->make();
+
+        //  El usuario crea el objeto y deberia darnos error 401
+       $this->post('/api/v1/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(401);
+
+    }
+
+    /** @test */
+    public function usuario_puede_crear_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto pero no lo insertamos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->make();
+
+        //  El usuario crea el objeto
+        $response = $this->actingAs($this->user, 'api')
+            ->post('/api/v1/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(201);
+
+        // Leemos el numero de objetos en la base de datos
+        $this->assertEquals(1, {{modelName}}::all()->count());
+
+        // Verificamos que en la base de datos hay un registro con los datos creados
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}', ${{modelNameSingularLowerCase}}->toArray());
+
+        // Verificamos que el {{__key__}} es el mismo que hemos grabado
+        $response->assertJsonFragment([
+            '{{__key__}}' => ${{modelNameSingularLowerCase}}->{{__key__}}
+        ]);
+
+    }
+
+    /** @test */
+    public function usuario_no_puede_crear_un_{{modelNameSingularLowerCase}}_datos_incompletos()
+    {
+        // Creamos un objeto con datos incompletos
+        ${{modelNameSingularLowerCase}} = new {{modelName}}();
+
+        //  El usuario crea el objeto pero le dice que faltan los required
+        $response = $this->actingAs($this->user, 'api')
+            ->post('/api/v1/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(422);
+
+    }
+
+    /** @test */
+    public function usuario_puede_editar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Tenemos al menos un objeto en la base de datos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // El usuario edita el objeto
+        $response = $this->actingAs($this->user, 'api')
+            ->get('/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id)
+            ->assertStatus(200);
+
+        // Verificamos que el {{__key__}} es el mismo que hemos grabado
+        $response->assertJsonFragment([
+            '{{__key__}}' => ${{modelNameSingularLowerCase}}->{{__key__}}
+        ]);
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_editar_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia decirnos que no podemos
+        $this->json('PATCH', '/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id, ${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(401);
+    }
+
+    /** @test */
+    public function usuario_puede_modificar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // Modificamos algunos datos
+        ${{modelNameSingularLowerCase}}->{{__key__}} = $this->faker->name;
+
+        //  El usuario crea el objeto
+        $response = $this->actingAs($this->user, 'api')
+            ->json('PATCH', '/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id, ${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(200);
+
+        // Verificamos que en la base de datos hay un registro con los datos modificados
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}',
+            [
+                'id' => ${{modelNameSingularLowerCase}}->id,
+                {{__fieldsFields__}}
+            ]
+        );
+
+        // Verificamos que el {{__key__}} es el mismo que hemos grabado
+        $response->assertJsonFragment([
+            '{{__key__}}' => ${{modelNameSingularLowerCase}}->{{__key__}}
+        ]);
+
+
+    }
+
+    /** @test */
+    public function usuario_no_puede_modificar_un_{{modelNameSingularLowerCase}}_datos_incompletos()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // Modificamos algunos datos
+        ${{modelNameSingularLowerCase}}->{{__key__}} = '';
+
+        //  El usuario crea el objeto
+        $response = $this->actingAs($this->user, 'api')
+            ->json('PATCH', '/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id, ${{modelNameSingularLowerCase}}->toArray())
+            ->assertStatus(422);
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_borrar_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia enviarnos a login
+        $response =  $this->json('DELETE', '/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id)
+            ->assertStatus(401);
+
+        // Verificamos que en la base de datos sigue estando el registro
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}',
+            [
+                'id' => ${{modelNameSingularLowerCase}}->id
+            ]
+        );
+    }
+
+    /** @test */
+    public function usuario_puede_borrar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia indicarnos que no podemos
+        $this->actingAs($this->user, 'api')
+            ->json('DELETE', '/api/v1/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id)
+            ->assertStatus(204);
+
+        // Verificamos que en la base de datos no esta el registro
+        $this->assertDatabaseMissing('{{modelNamePluralLowerCase}}', ['id'=> ${{modelNameSingularLowerCase}}->id]);
+
+    }
+
+}

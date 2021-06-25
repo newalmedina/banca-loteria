@@ -1,0 +1,10 @@
+<div style="padding: 0px 30px;">
+	<div style="width: 100%;">
+		<h2 style="margin-top: 30px;margin-bottom: 0px;text-align: center;">Template Builder</h2>
+		<h3 style="margin-top: 5px;margin-bottom: 10px;text-align: center;">Sample subtitle goes Here</h3>
+		<p style="text-align: center;">Lorem impsum dolor sit amet, consectetur adipiscing elit. Mauris vitae ullamcporper orci. Nullam nulla felis, imperdiet ac sollicitudin et, malesuada sagittis lacus.</p>
+	</div>
+	<div style="width: 100%;">
+		<img style="width: 100%;" src="{{asset("assets/img/admin/newsletter/ipad_land.png")}}" alt="">
+	</div>
+</div>

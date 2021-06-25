@@ -1,0 +1,16 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class {{modelNamePluralUpperCase}}Seeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}', 100)->create();
+    }
+}

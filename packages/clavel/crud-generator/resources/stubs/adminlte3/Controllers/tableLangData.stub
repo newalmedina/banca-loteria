@@ -1,0 +1,6 @@
+        $locale = app()->getLocale();
+        $query = DB::table('{{modelNamePluralLowerCase}} as c')
+            ->join('{{modelNameSingularLowerCase}}_translations as ct', function ($join) use ($locale) {
+                $join->on('ct.{{modelNameSingularLowerCase}}_id', '=', 'c.id');
+                $join->on('ct.locale', '=', DB::raw("'".$locale."'"));
+            })

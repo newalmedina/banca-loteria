@@ -1,0 +1,100 @@
+.spinner {
+  display: inline-block;
+  opacity: 0;
+  width: 0;
+  transition: opacity 0.25s, width 0.25s;
+}
+
+.has-spinner.active {
+  cursor: progress;
+}
+
+.has-spinner.active .spinner {
+  opacity: 1;
+  width: auto;
+  /* This doesn't work, just fix for unkown width elements */
+}
+
+.has-spinner.btn-mini.active .spinner {
+  width: 10px;
+}
+
+.has-spinner.btn-small.active .spinner {
+  width: 13px;
+}
+
+.has-spinner.btn.active .spinner {
+  width: 16px;
+}
+
+.has-spinner.btn-large.active .spinner {
+  width: 19px;
+}
+
+/* ASIGNATURAS LISTADO */
+
+.margin-v-0-10 {
+  margin-top: 0px !important;
+  margin-bottom: 10px !important;
+}
+
+.text-headline {
+  font-size: 1.84rem;
+  font-weight: 400;
+  line-height: 2.46rem;
+}
+
+.p-box P {
+  color: #212121;
+  font-size: 13px;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  orphans: 2;
+  text-align: start;
+  text-indent: 0px;
+  text-transform: none;
+  white-space: normal;
+  widows: 2;
+  word-spacing: 0px;
+  -webkit-text-stroke-width: 0px;
+  background-color: #ffffff;
+  -webkit-text-decoration-style: initial;
+  text-decoration-style: initial;
+  -webkit-text-decoration-color: initial;
+  text-decoration-color: initial;
+  display: inline !important;
+  float: none;
+}
+
+/* scroll utility plugin */
+
+.scrollFollow {
+  transition: all 0.5s ease-in-out;
+}
+
+.minimize.min .panel-default .list-group {
+  display: none;
+}
+
+.minimize .panel-body .minOpenBtn {
+  background: transparent;
+  color: #000;
+  border: 0px;
+  transition: all 0.5s ease-in-out;
+  min-width: 30px;
+}
+
+.minimize .panel-body .minOpenBtn:hover {
+  color: #fff;
+  background: #cb5b69;
+}
+
+.minimize .panel-body h5 {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}

@@ -1,0 +1,39 @@
+{
+  "name": "clavel/elearning",
+  "description": "Paquete de elearning",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jose Juan Calvo",
+      "email": "jjcalvo@aduxia.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+      "php": "^7.2",
+      "ext-zip": "*",
+      "illuminate/support": "^5.6|^6.0|^7.0",
+      "simplesoftwareio/simple-qrcode": "^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.7|^7.0|^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Clavel\\Elearning\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+        "Clavel\\Elearning\\Test\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Clavel\\Elearning\\ElearningServiceProvider"
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+        if (!Schema::hasTable('{{modelNameSingularLowerCase}}_translations')) {
+            Schema::create('{{modelNameSingularLowerCase}}_translations', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('{{modelNameSingularLowerCase}}_id')->unsigned();
+                $table->string('locale')->index();
+
+                {{__langFields__}}
+
+                $table->unique(['{{modelNameSingularLowerCase}}_id','locale']);
+                $table->foreign('{{modelNameSingularLowerCase}}_id')->references('id')->on('{{modelNamePluralLowerCase}}')->onDelete('cascade');
+            });
+        }

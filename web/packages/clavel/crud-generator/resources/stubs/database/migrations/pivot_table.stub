@@ -1,0 +1,8 @@
+if (!Schema::hasTable('{{modelNameSingularLowerCase}}_{{__tableName__}}')) {
+    Schema::create('{{modelNameSingularLowerCase}}_{{__tableName__}}', function (Blueprint $table) {
+        $table->unsignedInteger('{{modelNameSingularLowerCase}}_id');
+        $table->foreign('{{modelNameSingularLowerCase}}_id', '{{modelNameSingularLowerCase}}_id_fk_971697')->references('id')->on('{{modelNamePluralUpperCase}}')->onDelete('cascade');
+        $table->unsignedInteger('{{__tableName__}}_id');
+        $table->foreign('{{__tableName__}}_id', '{{__tableName__}}_id_fk_971697')->references('id')->on('{{__tableName__}}')->onDelete('cascade');
+    });
+}

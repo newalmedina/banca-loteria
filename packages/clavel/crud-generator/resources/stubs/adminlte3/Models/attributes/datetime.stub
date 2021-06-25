@@ -1,0 +1,17 @@
+public function get{{__columnNamePascalCase__}}Attribute($value)
+{
+    try {
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y' . ' ' . 'H:i') : null;
+    } catch(\Exception $e) {
+        return null;
+    }
+}
+
+public function set{{__columnNamePascalCase__}}Attribute($value)
+{
+    try {
+        $this->attributes['{{__columnName__}}'] = $value ? Carbon::createFromFormat('d/m/Y' . ' ' . 'H:i', $value)->format('Y-m-d H:i:s') : null;
+    } catch(\Exception $e) {
+        $this->attributes['{{__columnName__}}'] = null;
+    }
+}

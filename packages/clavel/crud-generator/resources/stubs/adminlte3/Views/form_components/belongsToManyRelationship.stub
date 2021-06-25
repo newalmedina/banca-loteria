@@ -1,0 +1,29 @@
+{{-- belongsToManyRelationship - {{fieldName}} --}}
+<div class="form-group row">
+    {!! Form::label('{{fieldName}}[]', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-sm-10">
+        @php
+            $items = [];
+        @endphp
+        @foreach(${{fieldNamePlural}} as $id => ${{fieldName}})
+            @php
+            $items+= [ $id => ${{fieldName}}]
+            @endphp
+        @endforeach
+        {!! Form::select('{{fieldName}}[]',
+        ['' => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_helper')] +
+        $items
+        ,
+        null ,
+        ['id'=>'{{fieldName}}',  'multiple' => 'multiple', 'class' => 'form-control select2']) !!}
+
+    </div>
+</div>
+{{--
+ <select class="form-control select2" name="sel_tags[]" multiple="multiple" data-placeholder="{{ trans('posts::admin_lang.seleccion_tags') }}" style="width: 100%;">
+    @foreach($tags as $value)
+        <option value="{{ $value->id }}" @if($post->tagSelected($value->id)) selected @endif>{{ $value->tag }}</option>
+    @endforeach
+</select>
+--}}

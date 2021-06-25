@@ -1,0 +1,7 @@
+$data = DB::table('{{modelNamePluralLowerCase}}')
+->select(
+    {{__tableFieldsSelect__}}
+)
+->orderBy('created_at', 'DESC')
+->get();
+

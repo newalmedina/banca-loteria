@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+
+Route::group(
+    [
+        'prefix' => '/api/v1',
+        'namespace' => 'App\Modules\{{modelNamePluralUpperCase}}\Api\v1',
+        'as' => 'api.',
+        'middleware' => ['{{has_api_auth}}api']
+    ],
+    function () {
+        Route::get('{{modelNamePluralLowerCase}}/list', '{{modelNamePluralUpperCase}}ApiController@list')->name('{{modelNamePluralLowerCase}}.list');
+        Route::resource('{{modelNamePluralLowerCase}}', '{{modelNamePluralUpperCase}}ApiController', ['except' => ['create', 'edit']]);
+    }
+);

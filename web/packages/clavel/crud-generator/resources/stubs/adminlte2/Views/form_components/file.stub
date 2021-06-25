@@ -1,0 +1,22 @@
+{{-- File - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('file_{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-sm-10">
+        <div class="input-group">
+            {!! Form::text('{{fieldName}}', null , array('placeholder' => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_helper'), 'class' => 'form-control', 'id' => '{{fieldName}}', 'readonly' => 'readonly')) !!}
+            {!! Form::hidden('delete_{{fieldName}}', 0, array('id' => 'delete_{{fieldName}}')) !!}
+            <span class="input-group-btn">
+                <div class="btn btn-primary btn-file">
+                    {{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.search_{{fieldName}}') }}
+                    {!! Form::file('file_{{fieldName}}',array('id'=>'file_{{fieldName}}', 'multiple'=>false)) !!}
+                </div>
+                <a id="remove_{{fieldName}}" href="#" class="btn btn-danger" style="cursor: pointer; text-align: center;">
+                    {{ trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.quitar_{{fieldName}}") }}
+                </a>
+                <a id="view_{{fieldName}}" href="{{ url('admin/{{modelNamePluralLowerCase}}/viewimage/'.${{modelNameSingularLowerCase}}->{{fieldName}}) }}" target="_blank" class="btn bg-purple" style="cursor: pointer; text-align: center;">
+                    {{ trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.view_{{fieldName}}") }}
+                </a>
+            </span>
+        </div>
+    </div>
+</div>

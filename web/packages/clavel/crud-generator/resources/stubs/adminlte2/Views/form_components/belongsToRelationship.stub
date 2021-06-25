@@ -1,0 +1,22 @@
+{{-- belongsToRelationship - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('{{fieldName}}_id', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-sm-10">
+        @php
+            $items = [];
+        @endphp
+        @foreach(${{fieldNamePlural}} as $id => ${{fieldName}})
+            @php
+            $items+= [ $id => ${{fieldName}}]
+            @endphp
+        @endforeach
+        {!! Form::select('{{fieldName}}_id',
+        ['' => trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}_helper')] +
+        $items
+        ,
+        null ,
+        ['id'=>'{{fieldName}}_id', 'class' => 'form-control select2']) !!}
+
+    </div>
+</div>

@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+use Clavel\Elearning\Tools\ConfigCommand;
+
+if (file_exists(__DIR__.'/../../../../vendor/autoload.php')) {
+    require __DIR__.'/../../../../vendor/autoload.php';
+} else {
+    require __DIR__.'/vendor/autoload.php';
+}
+
+
+$app = new Symfony\Component\Console\Application('Clavel Elearning Installer', '1.0.0');
+$app->add(new ConfigCommand);
+
+$app->run();

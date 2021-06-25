@@ -1,0 +1,68 @@
+//Font
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('../fonts/roboto/Roboto-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../fonts/roboto/Roboto-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url('../fonts/roboto/Roboto-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('../fonts/roboto/Roboto-Bold.woff') format('woff');
+}
+
+// Body
+$body-bg: #f5f8fa;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Brands
+$brand-primary: #3097D1;
+$brand-info: #019FE3;
+$brand-success: #2ab27b;
+$brand-warning: #cbb956;
+$brand-danger: #bf5329;
+
+
+$color-primary: #333b48;
+$color-secondary: #522583;
+$color-tertiary: #2bca6e;
+$color-quaternary: #ffffff;
+$color-rollover: #969B9C;
+$color-extra: #019FE3;
+
+
+// Typography
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$font-family-sans-serif: "Raleway", sans-serif;
+$font-size-base: 14px;
+$font-size-cabecera: 17px;
+$line-height-base: 1.6;
+$text-color: #636b6f;
+
+// Navbar
+$navbar-default-bg: #fff;
+
+// Buttons
+$btn-default-color: $text-color;
+
+// Inputs
+$input-border: lighten($text-color, 40%);
+$input-border-focus: lighten($brand-primary, 25%);
+$input-color-placeholder: lighten($text-color, 30%);
+
+// Panels
+$panel-default-heading-bg: #fff;

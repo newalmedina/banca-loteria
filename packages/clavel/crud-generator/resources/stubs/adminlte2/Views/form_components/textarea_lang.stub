@@ -1,0 +1,7 @@
+{{-- TextArea Lang - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('lang['.$key.'][{{fieldName}}]', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-sm-10">
+        {!! Form::textarea('lang['.$key.'][{{fieldName}}]', ${{modelNameSingularLowerCase}}->{'{{fieldName}}:'.$key}  , array('class' => 'form-control textarea', 'id' => '{{fieldName}}_'.$key)) !!}
+    </div>
+</div>

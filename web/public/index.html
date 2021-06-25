@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de palabras</title>
+
+    <link href="assets/admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .word {
+            cursor: pointer;
+            padding: 5px 0;
+            margin: 8px 0;
+            background-color: yellow;
+            color: #333;
+            font-weight: bold;
+            line-height: 2.0em;
+        }
+
+        .word-selected {
+            background-color: blueviolet !important;
+            color: #FFF !important;
+        }
+
+        .space {
+            background-color: red !important;
+
+        }
+    </style>
+
+</head>
+<body>
+
+
+
+        <div id="app" class="container">
+        <!--
+            <div>
+                <h1>Javascript</h1>
+                <p class="lead">Plantilla de inicio.<br>
+                    Use este documento como una forma de comenzar rápidamente cualquier proyecto nuevo.
+                </p>
+
+                <p id="textoProcesado" class="lead"></p>
+            </div>
+        -->
+            <div>
+                <h1>Vue</h1>
+                <p>
+                    <textarea
+                        v-model="texto"
+                        rows="10"
+                        cols="100"
+                        >Plantilla de inicio.
+                        Use este documento como una forma de comenzar rápidamente cualquier proyecto nuevo.</textarea>
+                </p>
+
+                <p class="lead" v-html="textoProcesado"></p>
+                <p class="lead" v-html="textoExamen"></p>
+
+            </div>
+
+
+        </div><!-- /.container -->
+
+
+
+
+    <!-- App -->
+    <script src="assets/admin/vendor/jquery/js/jquery.js" type="text/javascript"></script>
+    <script src="assets/admin/vendor/jquery/js/jquery-ui.js" type="text/javascript"></script>
+    <script src="assets/admin/vendor/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+
+
+    <script src="assets/admin/vendor/vue/vue.min.js"></script>
+    <script>
+        /*
+         $(document).ready(function () {
+            var texto = `  <p class="lead">  Plantilla de inicio. -  documento  \ /  <br>
+                    Use este documento como una  docume ;   forma de comenzar rápidamente cualquier   @    proyecto nuevo.
+                </p>       `;
+
+            var palabras = extractWords(texto);
+            console.log(palabras);
+            var selectedWords = ['documento', 'cualquier'];
+
+            var nuevoTexto = addClicks(cleanText(texto), palabras, selectedWords);
+
+            var textoProcesado = document.getElementById("textoProcesado");
+            textoProcesado.innerHTML = nuevoTexto;
+        });
+        */
+
+        function cleanText(texto) {
+            var str = texto;
+            str = str.replace(/(<([^>]+)>)/ig, " "); // Se quitan los tags html
+            str = str.replace(/[\n\r]+/g, ""); // Eliminamos los saltos de linea
+            str = str.replace(/(^\s*)|(\s*$)/gi, " "); // Quitamos los espacios iniciales y finales
+            str = str.replace(/[ ]{2,}/gi," "); // Eliminamos las multiples repeticiones de espacios en blanco
+
+            return str;
+        }
+
+        function extractWords(texto) {
+            var str = texto;
+
+            var stopWords = ['de', 'este', 'como', 'ese', 'la', 'el'];
+
+            str = cleanText(texto);
+            str = str.replace(/[~`!@#$%&/(){}\[\];:"'<,.>?\/\\\|_+=\-']/g, " "); // Eliminamos caracteres no permitidos
+            str = str.replace(/[ ]{2,}/gi," "); // Eliminamos las multiples repeticiones de espacios en blanco
+
+            str = str.split(' '); // Dividimo el array de palabras en palabras
+
+            str = str.filter(function(item) {
+                return stopWords.indexOf(item) === -1 && item.length >= 4;
+            });
+
+
+            return str;
+        }
+
+        function addClicks(text, wordsArray, selectedWordsArray) {
+
+            var textoFinal = "";
+
+            // Marcamos los espacios en blanco
+            var blank = `
+                <span class="space">&nbsp;</span>
+                `;
+            text = text.replace(/\s/g, blank);
+
+            wordsArray.forEach(element => {
+                var selected = "0";
+                var classData = "";
+
+                // Si es una de las palabras seleccionadas inicialmente la marcamos
+                if(selectedWordsArray.indexOf(element) !== -1) {
+                    selected = "1";
+                    classData = " word-selected";
+                }
+
+                // Plantilla alrededor de la palabra un click
+                var tag = `
+                <span id="${uuidv4()}" class="word ${classData}"  onclick="selectWord(this)"
+                    data-selected="${selected}" data-word="${element}">${element}</span>
+                `;
+
+                // Busamos la palabra
+                var pos = text.indexOf(element);
+                // Añadimos la parte anterior de la frase al texto final
+                textoFinal = textoFinal + text.substring(0, pos);
+                // Añadimos la palabra con el template
+                textoFinal = textoFinal + tag;
+
+                // Quitamos la parte anterior y la palabra del texto a procesar
+                text = text.substring(pos + element.length);
+
+            });
+
+            // Pegamos la parte final
+            textoFinal = textoFinal + text;
+
+            return textoFinal;
+        }
+
+        function addInputs(text, wordsArray, selectedWordsArray) {
+
+            var textoFinal = "";
+
+            // Marcamos los espacios en blanco
+            var blank = `
+                <span class="space">&nbsp;</span>
+                `;
+            text = text.replace(/\s/g, blank);
+
+            wordsArray.forEach(element => {
+                var selected = "0";
+                var classData = "";
+
+                var tag = '';
+                // Si es una de las palabras seleccionadas inicialmente la marcamos
+                if(selectedWordsArray.indexOf(element) !== -1) {
+                    tag = `
+                        <input id="${uuidv4()}"
+                            data-selected="${selected}" />
+                        `;
+                } else {
+                    tag = `
+                        <span id="${uuidv4()}" class="word ${classData}"  onclick="selectWord(this)"
+                            data-selected="${selected}">${element}</span>
+                        `;
+
+                }
+
+                // Busamos la palabra
+                var pos = text.indexOf(element);
+                // Añadimos la parte anterior de la frase al texto final
+                textoFinal = textoFinal + text.substring(0, pos);
+                // Añadimos la palabra con el template
+                textoFinal = textoFinal + tag;
+
+                // Quitamos la parte anterior y la palabra del texto a procesar
+                text = text.substring(pos + element.length);
+
+            });
+
+            // Pegamos la parte final
+            textoFinal = textoFinal + text;
+
+            return textoFinal;
+        }
+
+        function uuidv4() {
+            // console.log(uuidv4());
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+
+
+        function selectWord(element) {
+            var obj = document.getElementById(element.id);
+            var valor = obj.getAttribute("data-selected");
+            var word = obj.getAttribute("data-word");
+            console.log(word);
+            if(valor === "0") {
+                valor = "1";
+                obj.classList.add('word-selected');
+
+                app.selectedWords.push(word);
+            } else {
+                valor = "0";
+                obj.classList.remove('word-selected');
+                app.selectedWords = app.selectedWords.filter(e => e !== word);
+            }
+            obj.setAttribute("data-selected", valor);
+
+            app.textoExamen = textoExamen(app.texto, app.selectedWords);
+
+        }
+
+        function textoExamen(texto, selectedWords) {
+            var palabras = extractWords(texto);
+
+            var nuevoTexto = addInputs(cleanText(texto), palabras, selectedWords);
+
+            return nuevoTexto;
+        }
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                texto: '',
+                textoExamen: '',
+                selectedWords: ['documento', 'cualquier']
+            },
+            computed: {
+                textoProcesado() {
+                    var palabras = extractWords(this.texto);
+
+                    var nuevoTexto = addClicks(cleanText(this.texto), palabras, this.selectedWords);
+
+                    return nuevoTexto;
+                },
+
+
+            },
+            watch: {
+                texto: function (value) {
+                    this.textoExamen = textoExamen(value, this.selectedWords);
+                }
+            },
+            mounted () {
+                console.log('Vue mounted');
+                this.texto = 'Plantilla de inicio.<br>Use este documento como una forma de comenzar rápidamente cualquier proyecto nuevo.';
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Tests\Feature;
+
+use Tests\AdminTestCase;
+use App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}};
+
+
+// Para llamar directamente a esta prueba
+// ./vendor/bin/phpunit app/Modules/{{modelNamePluralUpperCase}}/Tests/Feature/{{modelNamePluralUpperCase}}Test.php
+//  ./vendor/bin/phpunit --filter {{modelNamePluralUpperCase}}Test
+
+class {{modelNamePluralUpperCase}}Test extends AdminTestCase
+{
+    /** @test */
+    public function usuario_no_autenticado_no_puede_acceder()
+    {
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Llamamos a la ruta de listado
+        $response = $this->get(route('{{modelNamePluralLowerCase}}.index'));
+
+        // La respuesta debe ser 200 o 302
+        // Si solo hay admin hay una redirección por lo que la respuesta es 302
+        $this->assertContains($response->getStatusCode(), array(200,302));
+
+        // Miramos si la vista es la correcta
+        $response->assertRedirect('/admin/login');
+
+    }
+
+    /** @test */
+    public function usuario_puede_leer_{{modelNamePluralLowerCase}}()
+    {
+        // Tenemos al menos un objeto en la base de datos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // El usuario visita el listado de objetos
+        $response = $this->actingAs($this->user)->post('admin/{{modelNamePluralLowerCase}}/list');
+
+        // Veremos en el listado el objeto creado
+        $response->assertSee(${{modelNameSingularLowerCase}}->{{__key__}});
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_crear_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto pero no lo insertamos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->make();
+
+        //  El usuario crea el objeto y deberia enviarnos a login
+        $this->post('admin/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertRedirect('/admin/login');
+
+    }
+
+    /** @test */
+    public function usuario_puede_crear_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto pero no lo insertamos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->make();
+
+        //  El usuario crea el objeto
+        $this->actingAs($this->user)
+            ->post('admin/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertSessionDoesntHaveErrors();
+
+
+        // Leemos el numero de objetos en la base de datos
+        $this->assertEquals(1, {{modelName}}::all()->count());
+
+        // Verificamos que en la base de datos hay un registro con los datos creados
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}', ${{modelNameSingularLowerCase}}->toArray());
+
+    }
+
+    /** @test */
+    public function usuario_no_puede_crear_un_{{modelNameSingularLowerCase}}_datos_incompletos()
+    {
+        // Creamos un objeto con datos incompletos
+        ${{modelNameSingularLowerCase}} = new {{modelName}}();
+
+        //  El usuario crea el objeto pero le dice que faltan los required
+        $this->actingAs($this->user)->post('admin/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertSessionHasErrors([
+                {{__fieldRequired__}}
+            ]);
+
+    }
+
+    /** @test */
+    public function usuario_puede_editar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Tenemos al menos un objeto en la base de datos
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // El usuario edita el objeto
+        $response = $this->actingAs($this->user)->get('admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id."/edit");
+
+        // Vemos que se ven los datos
+        $response->assertSee(${{modelNameSingularLowerCase}}->{{__key__}});
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_editar_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia enviarnos a login
+        $response = $this->put('/admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id, ${{modelNameSingularLowerCase}}->toArray())
+            ->assertRedirect('/admin/login');
+
+    }
+
+    /** @test */
+    public function usuario_puede_modificar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // Modificamos algunos datos
+        ${{modelNameSingularLowerCase}}->{{__key__}} = $this->faker->name;
+
+        //  El usuario crea el objeto
+        $this->actingAs($this->user)->put('/admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id, ${{modelNameSingularLowerCase}}->toArray());
+
+        // Verificamos que en la base de datos hay un registro con los datos modificados
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}',
+            [
+                'id' => ${{modelNameSingularLowerCase}}->id,
+                {{__fieldsFields__}}
+            ]
+        );
+
+    }
+
+    /** @test */
+    public function usuario_no_puede_modificar_un_{{modelNameSingularLowerCase}}_datos_incompletos()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        // Modificamos algunos datos
+        {{__cleanFields__}}
+
+
+        //  El usuario crea el objeto pero le dice que faltan los required
+        $this->actingAs($this->user)->post('admin/{{modelNamePluralLowerCase}}',${{modelNameSingularLowerCase}}->toArray())
+            ->assertSessionHasErrors([
+                {{__fieldRequired__}}
+            ]);
+
+    }
+
+    /** @test */
+    public function usuario_no_autenticado_no_puede_borrar_un_{{modelNameSingularLowerCase}}()
+    {
+
+        // Debo ser invitado
+        $this->assertGuest();
+
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia enviarnos a login
+        $response =  $this->delete('/admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id)
+            ->assertRedirect('/admin/login');
+
+        // Verificamos que en la base de datos sigue estando el registro
+        $this->assertDatabaseHas('{{modelNamePluralLowerCase}}',
+            [
+                'id' => ${{modelNameSingularLowerCase}}->id
+            ]
+        );
+
+    }
+
+    /** @test */
+    public function usuario_puede_borrar_un_{{modelNameSingularLowerCase}}()
+    {
+        // Creamos un objeto
+        ${{modelNameSingularLowerCase}} = factory('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}')->create();
+
+        //  El usuario crea el objeto y deberia enviarnos a login
+        $this->actingAs($this->user)->delete('/admin/{{modelNamePluralLowerCase}}/'.${{modelNameSingularLowerCase}}->id) ;
+
+        // Verificamos que en la base de datos no esta el registro
+        $this->assertDatabaseMissing('{{modelNamePluralLowerCase}}', ['id'=> ${{modelNameSingularLowerCase}}->id]);
+
+    }
+}

@@ -1,0 +1,6 @@
+    //color picker with addon
+    $(".{{__columnName__}}_colorpicker").colorpicker();
+
+    $('.{{__columnName__}}_colorpicker').on('colorpickerChange', function(event) {
+      $('.{{__columnName__}}_colorpicker .fa-square').css('color', event.color.toString());
+    });

@@ -1,0 +1,13 @@
+{{-- Checkbox - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+
+    <div class="col-md-10">
+        <div class="checkbox">
+            <label>
+                {{Form::checkbox('{{fieldName}}', 1, null, array( 'class' => 'minimal', 'id' => '{{fieldName}}') )}}
+                {{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}') }}
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+public function {{__columnNamePlural__}}()
+{
+    return $this->belongsToMany({{__model__}}::class, '{{__foreignKey__}}_{{__columnName__}}', '{{__foreignKey__}}_id', '{{__columnName__}}_id');
+}
+

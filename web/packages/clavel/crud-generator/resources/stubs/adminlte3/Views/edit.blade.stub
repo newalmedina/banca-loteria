@@ -1,0 +1,75 @@
+@extends('themes.admin.layouts.default')
+
+@section('title')
+    @parent {{ $page_title }}
+@stop
+
+@section('head_page')
+    {{__scriptsStyles__}}
+@stop
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ url("admin/{{modelNamePluralLowerCase}}") }}">{{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.{{modelNameSingularLowerCase}}') }}</a></li>
+    <li class="breadcrumb-item active">{{ $page_title }}</li>
+@stop
+
+@section('content')
+
+
+    @include('themes.admin.includes.errors')
+    @include('themes.admin.includes.success')
+
+    {!! Form::model(${{modelNameSingularLowerCase}}, $form_data, array('role' => 'form')) !!}
+    {!! Form::hidden("form_return", 0, array('id' => 'form_return')) !!}
+    <div class="row">
+
+        <div class="col-12">
+
+            <div class="card card-primary card-outline">
+                <div class="card-header  with-border"><h3 class="card-title">{{ trans("{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.info_menu") }}</h3></div>
+                <div class="card-body">
+                    {{__fields__}}
+                </div>
+            </div>
+
+            @if(\View::exists('{{modelNamePluralUpperCase}}::admin_edit_lang'))
+                @include('{{modelNamePluralUpperCase}}::admin_edit_lang')
+            @endif
+
+            <div class="card box-solid">
+                <div class="card-footer">
+                    <a href="{{ url('/admin/{{modelNamePluralLowerCase}}') }}" class="btn btn-secondary">{{ trans('general/admin_lang.cancelar') }}</a>
+                    <button type="submit" class="btn btn-primary float-right">{{ trans('general/admin_lang.save') }}</button>
+                    <button id="btnSaveReturn" class="btn btn-success float-right" style="margin-right:20px;">{{ trans('general/admin_lang.save_and_return') }}</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    {!! Form::close() !!}
+
+@endsection
+
+@section("foot_page")
+    {{__scriptsIncludes__}}
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $(".select2").select2({
+                theme: "bootstrap"
+            });
+
+            {{__scriptsData__}}
+        });
+
+        $('#btnSaveReturn').on( 'click', function (event) {
+            event.preventDefault();
+            $('#form_return').val(1);
+            $('#formData').submit();
+        } );
+
+    </script>
+    {!! JsValidator::formRequest('App\Modules\{{modelNamePluralUpperCase}}\Requests\Admin{{modelNamePluralUpperCase}}Request')->selector('#formData') !!}
+@stop

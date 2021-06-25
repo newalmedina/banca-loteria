@@ -1,0 +1,39 @@
+
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+
+            <?php
+            $nX = 1;
+            ?>
+            @foreach ($a_trans as $key => $valor)
+                <li @if($nX==1) class="active" @endif>
+                    <a href="#tab_{{ $key }}" data-toggle="tab">
+                        {{ $valor["idioma"] }}
+                        @if($nX==1)- <span class="text-success">{{ trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.defecto') }}</span>@endif
+                    </a>
+                </li>
+                <?php
+                $nX++;
+                ?>
+            @endforeach
+
+        </ul><!-- /.card-header -->
+
+        <div class="tab-content">
+            <?php
+            $nX = 1;
+            ?>
+            @foreach ($a_trans as $key => $valor)
+                <div id="tab_{{ $key }}" class="tab-pane @if($nX==1) active @endif">
+                    {!!  Form::hidden('lang['.$key.'][id]', $valor["id"], array('id' => 'id')) !!}
+
+                    {{__fields__}}
+
+                </div>
+                <?php
+                $nX++;
+                ?>
+            @endforeach
+        </div>
+    </div>
+

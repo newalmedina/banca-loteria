@@ -1,0 +1,5 @@
+public function {{__columnNamePlural__}}()
+{
+    return $this->belongsToMany({{__model__}}::class);
+}
+

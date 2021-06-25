@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class Create{{modelNamePluralUpperCase}}Table extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if (!Schema::hasTable('{{modelNamePluralLowerCase}}')) {
+            Schema::create('{{modelNamePluralLowerCase}}', function (Blueprint $table) {
+                $table->increments('id');
+
+                {{__fields__}}
+
+
+                $table->timestamps();
+
+                {{__softDeletes__}}
+            });
+        }
+
+        {{__langTable__}}
+
+        {{__pivotTable__}}
+
+
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        {{__langTableDrop__}}
+        Schema::dropIfExists('{{modelNamePluralLowerCase}}');
+    }
+}

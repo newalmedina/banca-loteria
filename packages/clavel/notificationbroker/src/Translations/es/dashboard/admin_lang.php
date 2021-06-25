@@ -1,0 +1,58 @@
+<?php
+
+return [
+
+    // Formulario de login
+    "Dashboard" => "Dashboard",
+    "estadisticas_info" => 'Estadísticas de envíos',
+    'usuarios_hoy' => 'Envios hoy',
+    'usuarios_alguna_vez' => 'Emails hoy',
+    'visitas_mas_veces' => 'SMS totales hoy',
+    'sms_buenos' => 'SMS correctos',
+    'sms_error' => 'SMS incorrectos',
+    'sms_certified' => 'SMS certificados',
+    'sms_multicredit' => 'SMS multi crédito',
+    'sms_creditos' => 'créditos consumidos',
+    'email_certified' => 'emails certificados',
+    'visitas_una_veces' => 'Envios totales',
+    'visitors_map' => 'Localización visitantes',
+    'visitas' => 'Visitas únicas',
+    'registrados' => 'Usuarios registrados',
+    'anonimos' => 'Usuarios anónimos',
+    'browser' => 'Navegadores',
+    'ultimas_visitas_paginas' => 'Rutas visitadas',
+    'nombre_menu' => 'URL',
+    'clicks' => 'Clicks',
+    'estado' => 'Estado',
+    'sevenlastdays' => '7 últimos días',
+    'desactivo' => 'Desactivada',
+    'activo' => 'Activa',
+    'titulo_pagina' => 'Título página',
+    'usuarios' => 'usuarios',
+    'accesis' => 'accesos',
+    'filtro_fecha' => 'Filtro de fechas',
+    'filtro_fecha_select' => 'Seleccione fecha inicial',
+    'show_stats' => 'Se mostrará desde la fecha seleccionada hasta el día de hoy las estadísticas',
+    'buscar' => 'Filtrar',
+    'fecha' => 'Fecha',
+    'plantilla' => 'Plantilla',
+    'contador' => 'Núm. envios',
+    'to' => 'Para',
+    'subject' => 'Asunto',
+    'guid' => 'Id.',
+    'state' => 'Estado',
+    'retries' => 'Reintentos',
+    'sms_credits' => 'Créditos SMS',
+    'credits' => 'Créditos',
+    'sms_verified_at' => 'Última verificación',
+    'only_certified' => 'Ver sólo certificados',
+
+    'export' => 'Exportaciones',
+    'export_excel' => 'Exportar excel resumen',
+    'export_excel_detail' => 'Exportar excel detallado',
+
+    'list_export' => 'Estadísticas de envios realizados',
+    'data_excel' => 'Envios',
+
+
+];

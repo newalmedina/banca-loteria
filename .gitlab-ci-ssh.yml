@@ -1,0 +1,34 @@
+# Define pipline stages
+stages:
+  - init
+  - deploy
+
+hello:
+  stage: init
+  script:
+    - echo "Inicialización"
+
+  only:
+    - master
+
+deploy-master:
+  stage: deploy
+
+  script:
+    - echo "Deploying"
+    - sshpass -p $SSH_PASS ssh -oStrictHostKeyChecking=no xxxxx@www.xxxxx.com "
+      export PATH=/opt/plesk/php/7.2/bin:$PATH &&
+      cd /var/www/vhosts/xxxx.com/wwww.xxxxx.com/xxxxx/web &&
+      php artisan down &&
+      cd ../ &&
+      git checkout . &&
+      git checkout master &&
+      git pull -v --tags &&
+      cd web/  &&
+      COMPOSER_MEMORY_LIMIT=-1 composer update --no-dev --no-scripts &&
+      php artisan migrate --force &&
+      php artisan up
+      "
+
+  only:
+    - master

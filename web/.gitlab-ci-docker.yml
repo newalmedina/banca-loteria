@@ -1,0 +1,335 @@
+image: aduxia/lamp-ci
+
+services:
+  - mysql:5.7
+    command: ["--default-authentication-plugin=mysql_native_password"]
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - clavel-cms-2019/web/vendor/
+
+variables:
+  GIT_STRATEGY: none
+# this variable tells the runner not to clone the project
+# it is not needed as we already got the code in the docker image
+
+  SONAR_URL: "http://slump.aduxia.net:9000"
+  SONAR_LOGIN: "admin"
+  SONAR_PASSWORD: "admin"
+
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: root
+  MYSQL_PASSWORD: secret
+  MYSQL_DATABASE: clavel
+  DB_HOST: mysql
+
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq git && apt-get install iputils-ping -y -qq
+  - apt-get install mariadb-client -y -qq
+
+  # Install Xdebug
+  - pecl install xdebug
+  - docker-php-ext-enable xdebug
+
+  - cat /etc/hosts   # for debugging
+  - echo '172.17.0.1  code.aduxia.net' >> /etc/hosts
+  - echo '172.17.0.1  slump.aduxia.net' >> /etc/hosts
+  - cat /etc/hosts   # for debugging
+  # - ping -c 4 code.aduxia.net
+
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  ##
+  ## Run ssh-agent (inside the build environment)
+  ##
+  - eval $(ssh-agent -s)
+
+  ##
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  ## We're using tr to fix line endings which makes ed25519 keys work
+  ## without extra base64 encoding.
+  ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+  ##
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+  ##
+  ## Create the SSH directory and give it the right permissions
+  ##
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+  ##
+  ## Optionally, if you will be using any Git commands, set the user name and
+  ## and email.
+  ##
+  - git config --global user.email "info@aduxia.com"
+  - git config --global user.name "dpto. desarrollo Aduxia"
+
+  ##
+  ## Assuming you created the SSH_KNOWN_HOSTS variable, uncomment the
+  ## following two lines.
+  ##
+  #- echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+  #- chmod 644 ~/.ssh/known_hosts
+
+  ##
+  ## Alternatively, use ssh-keyscan to scan the keys of your private server.
+  ## Replace example.com with your private server's domain name. Repeat that
+  ## command if you have more than one server to connect to.
+  ##
+  - ssh-keyscan code.aduxia.net >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+  - cat ~/.ssh/known_hosts   # for debugging
+
+  ##
+  ## You can optionally disable host key checking. Be aware that by adding that
+  ## you are susceptible to man-in-the-middle attacks.
+  ## WARNING: Use this only with the Docker executor, if you use it with shell
+  ## you will overwrite your user's SSH config.
+  ##
+  #- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+  - >
+    if [ -d "./clavel-cms-2019" ]; then
+      echo "Existe directorio"
+      mv clavel-cms-2019 clavel-cms-2019-vendor
+    fi
+  - git clone git@code.aduxia.net:cms/clavel-cms-2019.git
+  - >
+    if [ -d "./clavel-cms-2019-vendor" ]; then
+      echo "Existe directorio"
+      cp -Rf clavel-cms-2019-vendor/web clavel-cms-2019/
+      rm -Rf clavel-cms-2019-vendor
+    fi
+
+  - cd clavel-cms-2019/web/
+  - git checkout .
+  #- git reset --hard origin/develop
+  - git pull origin develop
+
+
+# Define pipline stages
+stages:
+  - init
+  - testing
+  - security
+  - deploy
+
+building:
+  stage: init
+  script:
+    - echo "Inicialización"
+    - php -v
+    - git --version
+    - bash dev-tools/docker_install.sh > /dev/null
+
+    # Update Composer
+    - composer self-update
+
+    - COMPOSER_MEMORY_LIMIT=-1 composer install --no-ansi --no-interaction --no-progress --no-scripts
+
+    - chmod -R 775 storage
+    - chmod 775 bootstrap/cache
+
+    # Copy over testing configuration.
+    - cp .env.testing .env
+
+    # Generate an application key. Re-cache.
+    - php artisan key:generate
+    - php artisan config:cache
+
+    - cat .env
+  only:
+    - develop
+  artifacts:
+    when: always
+    expire_in: 1 days
+    paths:
+      - clavel-cms-2019/web/vendor/
+      - clavel-cms-2019/web/.env
+  cache:
+    paths:
+      - clavel-cms-2019/web/vendor/
+
+codestyle:
+  stage: testing
+  dependencies:
+    - building
+  script:
+    - echo "Testing - Code Style"
+    - ./vendor/bin/phpcs -p --colors --standard=PSR2 --report=summary --ignore=*/tests/*,*/Views/*,*/Translations/*,*/database/*,*/config/*,*/resources/* ./app ./packages > phpcs_report.txt
+  only:
+    - develop
+  artifacts:
+    when: always
+    expire_in: 1 days
+    paths:
+      - clavel-cms-2019/web/phpcs_report.txt
+  allow_failure: true
+
+phpcpd:
+  stage: testing
+  dependencies:
+    - building
+  script:
+    - echo "Testing - Php CPD"
+    - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd-4.1.0.phar -o phpcpd.phar
+    - php phpcpd.phar --fuzzy --exclude=*/tests/*,*/Views/*,*/Translations/*,*/database/*,*/config/*,*/resources/* ./app ./packages > phpcpd_report.txt
+  only:
+    - develop
+  cache:
+    paths:
+      - phpcpd.phar
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - clavel-cms-2019/web/phpcpd_report.txt
+  allow_failure: true
+
+phploc:
+  stage: testing
+  dependencies:
+    - building
+  script:
+    - echo "Testing - PHPLoc análisis complejidad del código"
+    - test -f phploc.phar || curl -L https://phar.phpunit.de/phploc.phar -o phploc.phar
+    - php phploc.phar --exclude=*/tests/*,*/Views/*,*/Translations/*,*/database/*,*/config/*,*/resources/* ./app ./packages > phploc_report.txt
+  only:
+    - develop
+  cache:
+    paths:
+      - phploc.phar
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - clavel-cms-2019/web/phploc_report.txt
+  allow_failure: true
+
+phpunit:
+  stage: testing
+  script:
+    - echo "Testing - PHPUnit"
+    - chmod -R 775 storage
+    - chmod 775 bootstrap/cache
+
+    - cp .env.testing .env
+
+    # Generate an application key. Re-cache.
+    - php artisan key:generate
+    - php artisan config:cache
+    - php artisan migrate:fresh --seed
+
+    - mysql --version
+    - mysqldump --host="${DB_HOST}" --user="${MYSQL_USER}" --password="${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" > db.sql
+    #- mysql --host="${DB_HOST}" --user="${MYSQL_USER}" --password="${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" < db.sql
+
+    - cat .env
+    - ./vendor/bin/phpunit --version
+    #- php -d short_open_tag=off ./vendor/bin/phpunit -v --colors=never --stderr --configuration phpunit-testing.xml
+    - php -d short_open_tag=off ./vendor/bin/phpunit -v --colors=never --stderr
+  artifacts:
+    paths:
+      - clavel-cms-2019/web/storage/logs # for debugging
+      - clavel-cms-2019/web/build # para sonarqube
+      - clavel-cms-2019/web/db.sql
+    expire_in: 1 days
+    when: on_failure
+  allow_failure: true
+
+phpstan:
+  stage: testing
+  dependencies:
+    - building
+  script:
+    - echo "Testing - PHPStan - PHP Static Analysis Tool"
+    - php -d memory_limit=-1 ./vendor/bin/phpstan analyse ./app -c ./dev-tools/phpstan.neon --level=1 --memory-limit=4000M -vvv > phpstan_results.txt
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - clavel-cms-2019/web/phpstan_results.txt
+  only:
+    - develop
+  allow_failure: true
+
+
+phpmess:
+  stage: testing
+  dependencies:
+    - building
+  script:
+      #- ./vendor/bin/phpmd app/ ansi cleancode,controversial,codesize,design,naming,unusedcode --exclude=app/views,app/storage,app/tests,app/filters.php,app/routes.php,packages/,app/Providers/,app/Console/,app/services/,http/Middleware/,app/Exceptions/,app/Events/
+      - ./vendor/bin/phpmd app/ ansi ./dev-tools/phpmd_ruleset.xml --exclude=app/views,app/storage,app/tests,app/filters.php,app/routes.php,packages/,app/Providers/,app/Console/,app/services/,http/Middleware/,app/Exceptions/,app/Events/ > phpmd_results.txt
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - clavel-cms-2019/web/phpmd_results.txt
+  only:
+    - develop
+  allow_failure: true
+
+
+sonarqube:
+  stage: testing
+  dependencies:
+    - building
+  script:
+    - bash dev-tools/sonarqube.sh
+    - sonar-scanner -Dproject.settings=./sonar-project.properties
+  cache:
+    paths:
+      - /opt/sonarscanner/
+  only:
+    - develop
+  allow_failure: true
+
+
+sensiolabs:
+  stage: security
+  dependencies:
+    - building
+  script:
+    - echo "Security - Sensiolabs"
+    - test -d security-checker || git clone https://github.com/sensiolabs/security-checker.git
+    - cd security-checker
+    - php security-checker security:check ../composer.lock  > ../security-checker.txt
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - clavel-cms-2019/web/security-checker.txt
+  cache:
+    paths:
+      - clavel-cms-2019/web/security-checker/
+  only:
+    - develop
+
+deploy_qa:
+  stage: deploy
+  script:
+    - echo "Deploy - Calidad"
+  environment:
+    name: production
+    url: http://192.168.1.1
+  only:
+    - develop
+
+deploy_production:
+  stage: deploy
+  script:
+    - echo "Deploy - Producción"
+  environment:
+    name: production
+    url: http://192.168.1.1
+  when: manual
+  only:
+    - master

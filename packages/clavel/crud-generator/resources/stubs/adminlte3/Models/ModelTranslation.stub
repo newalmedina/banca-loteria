@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class {{modelName}}Translation extends Model
+{
+    protected $table = "{{modelNameSingularLowerCase}}_translations";
+
+    public $timestamps = false;
+
+    public function {{modelNameSingularLowerCase}}()
+    {
+        return $this->belongsTo('App\Modules\{{modelNamePluralUpperCase}}\Models\{{modelName}}');
+    }
+
+}

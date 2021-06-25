@@ -1,0 +1,14 @@
+{{-- Radio yes/no - {{fieldName}} --}}
+<div class="form-group">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-md-10">
+        <div class="radio-list">
+            <label class="radio-inline">
+                {!! Form::radio('{{fieldName}}', 0, true, array('id'=>'{{fieldName}}_0')) !!}
+                {{ trans('general/admin_lang.no') }}</label>
+            <label class="radio-inline">
+                {!! Form::radio('{{fieldName}}', 1, false, array('id'=>'{{fieldName}}_1')) !!}
+                {{ trans('general/admin_lang.yes') }} </label>
+        </div>
+    </div>
+</div>

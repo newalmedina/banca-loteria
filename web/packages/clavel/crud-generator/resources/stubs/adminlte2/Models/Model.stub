@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Modules\{{modelNamePluralUpperCase}}\Models;
+
+use Illuminate\Database\Eloquent\Model;
+{{__includes__}}
+
+class {{modelName}} extends Model
+{
+    {{__translatable__}}
+
+    {{__useSoftDeletes__}}
+
+    protected $table = "{{modelTableName}}";
+
+    {{__dates__}}
+
+    {{__fillables__}}
+
+    {{__constSelects__}}
+
+    {{__attributes__}}
+}

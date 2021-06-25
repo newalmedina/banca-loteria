@@ -1,0 +1,38 @@
+{
+  "name": "clavel/posts",
+  "description": "Paquete de noticias de Clavel",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Antoni Martínez Mateo",
+      "email": "amartinez@aduxia.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.2",
+    "illuminate/support": "^5.6|^6.0|^7.0",
+    "ext-tidy": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.7|^7.0|^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Clavel\\Posts\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Clavel\\Posts\\Test\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Clavel\\Posts\\PostServiceProvider"
+      ]
+    }
+  }
+}

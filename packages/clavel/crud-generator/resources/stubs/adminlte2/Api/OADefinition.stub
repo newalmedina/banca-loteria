@@ -1,0 +1,18 @@
+<?php
+
+
+/**
+ * @OA\Tag(
+ *     name="{{modelNamePluralUpperCase}}",
+ *     description="Operations about {{modelNamePluralLowerCase}}",
+ * )
+ */
+
+
+ /**
+ * @OA\Schema(
+ *   schema="{{modelName}}",
+ *   required={{{__fieldRequired__}}},
+     {{__fieldProperties__}}
+ * ),
+*/

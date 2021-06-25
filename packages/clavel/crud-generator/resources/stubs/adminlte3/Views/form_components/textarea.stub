@@ -1,0 +1,7 @@
+{{-- TextArea - {{fieldName}} --}}
+<div class="form-group row">
+    {!! Form::label('{{fieldName}}', trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.fields.{{fieldName}}'), array('class' => 'col-sm-2 control-label')) !!}
+    <div class="col-sm-10">
+        {!! Form::textarea('{{fieldName}}', null , array('class' => 'form-control textarea', 'id' => '{{fieldName}}')) !!}
+    </div>
+</div>

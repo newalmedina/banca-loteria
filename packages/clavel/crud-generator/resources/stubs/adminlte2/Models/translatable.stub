@@ -1,0 +1,5 @@
+    use \Astrotomic\Translatable\Translatable;
+    public $translatedAttributes = [
+        {{__translatable_fields__}}
+    ];
+    public $useTranslationFallback = true;

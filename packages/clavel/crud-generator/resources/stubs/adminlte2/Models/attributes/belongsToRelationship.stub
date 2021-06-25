@@ -1,0 +1,5 @@
+public function {{__columnName__}}()
+{
+    return $this->belongsTo({{__model__}}::class, '{{__columnName__}}_id');
+}
+

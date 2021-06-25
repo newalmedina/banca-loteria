@@ -1,0 +1,106 @@
+public function generateExcel()
+    {
+        ini_set('memory_limit', '300M');
+
+        if (ob_get_contents()) {
+            ob_end_clean();
+        }
+        set_time_limit(1000);
+
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet
+            ->getProperties()
+            ->setCreator(config('app.name', ''))
+            ->setCompany(config('app.name', ''))
+            ->setLastModifiedBy(config('app.name', '')) // última vez modificado por
+            ->setTitle(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'))
+            ->setSubject(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'))
+            ->setDescription(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'))
+            ->setKeywords(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'))
+            ->setCategory('Informes');
+
+        // Activamos la primera pestaña
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setTitle(substr(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'),0,30));
+
+        $spreadsheet->getActiveSheet()->getPageSetup()
+            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+        $spreadsheet->getActiveSheet()->getPageSetup()
+            ->setPaperSize(PageSetup::PAPERSIZE_A4);
+
+        $sheet->getPageSetup()->setFitToWidth(1);
+
+        $sheet->getHeaderFooter()->setOddHeader(trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data'));
+        $sheet->getHeaderFooter()->setOddFooter('&L&B' .
+            $spreadsheet->getProperties()->getTitle() . '&RPágina &P de &N');
+
+        $row = 1;
+
+        // Ponemos las cabeceras
+        $cabeceras = array(
+             {{__tableFieldsHeader__}}
+        );
+
+        $j=1;
+        foreach ($cabeceras as $titulo) {
+            $sheet->setCellValueByColumnAndRow($j++, $row, $titulo);
+        }
+
+        $columna_final = Coordinate::stringFromColumnIndex($j - 1);
+
+        $sheet->getStyle('A'.$row.':'.$columna_final.$row)->getFont()->setBold(true);
+        $sheet->getStyle('A'.$row.':'.$columna_final.$row)->getFont()->setSize(14);
+
+        ExcelHelper::cellColor($sheet, 'A'.$row.':'.$columna_final.$row, 'ffc000');
+
+        foreach (ExcelHelper::xrange('A', $columna_final) as $columnID) {
+            $sheet->getColumnDimension($columnID)
+                ->setAutoSize(true);
+        }
+        $row++;
+
+        // Ahora los registros
+        {{__excelExportQuery__}}
+
+        foreach ($data as $key => $value) {
+
+            $valores = array(
+               {{__tableFields__}}
+            );
+
+            $j=1;
+            foreach ($valores as $valor) {
+                $sheet->setCellValueByColumnAndRow($j++, $row, $valor);
+            }
+            $row++;
+        }
+
+        ExcelHelper::autoSizeCurrentRow($sheet);
+
+        $sheet->getPageSetup()->setHorizontalCentered(true);
+        $sheet->getPageSetup()->setVerticalCentered(false);
+
+
+        // Activamos la primera pestaña
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $writer = new Xlsx($spreadsheet);
+        $file_name = trans('{{modelNamePluralUpperCase}}::{{modelNamePluralLowerCase}}/admin_lang.listado_data')."_".Carbon::now()->format('YmdHis');
+        $outPath = storage_path("app/exports/");
+        if (!file_exists($outPath)) {
+            mkdir($outPath, 0777, true);
+        }
+        $writer->save($outPath.$file_name.'.xlsx');
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $file_name.'.xlsx' . '"');
+        header('Cache-Control: max-age=0');
+
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+    }
