@@ -32,11 +32,5 @@
       'namespace' => 'pruebas',
       'route' => 'pruebas',
     ),
-    'pruebas' => 
-    array (
-      'name' => 'Resultados',
-      'namespace' => 'Resultados',
-      'route' => 'resultados',
-    ),
   ),
 ) ;
