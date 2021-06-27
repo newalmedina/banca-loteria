@@ -32,7 +32,9 @@
         "proengsoft/laravel-jsvalidation": "^3.0",
         "santigarcor/laratrust": "^5.2",
         "webpatser/laravel-uuid": "^3.0",
-        "yajra/laravel-datatables-oracle": "^9.9"
+        "yajra/laravel-datatables-oracle": "^9.9",
+        
+        "weidner/goutte": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
